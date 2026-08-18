@@ -1,0 +1,28 @@
+# NAME
+
+Podman Blank - Containers for Blank website.
+
+# VERSION
+
+1.01
+
+# DESCRIPTION
+
+This directory provides files for setting up a Blank website instance using podman and podman-compose.
+
+It is based on one image for a Postgresql database and one image for a Mojolicious app.
+It creates three containers/services, one for the database, one for running migrations (it needs to
+be run before the main Blank website container) and one for serving the Blank website.
+
+# INSTALLATION
+
+clone this project
+add your Blank configuration file in blank-website and make sure it is copied in the Container file
+create a tls directory and the needed certificate and keys and make sure it is copied in the Container file
+Install Podman including podman-compose.
+Do in your shell:
+podman-compose -f compose.yaml up
+
+# Access to the blank container
+In order to pull from git or act on the Database from Mojolicious
+$ podman exec -ti blank bash

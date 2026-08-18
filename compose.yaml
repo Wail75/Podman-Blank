@@ -1,0 +1,57 @@
+services:
+
+  postgresql:
+    container_name: postgresql
+    image: docker.io/postgres:16-alpine
+    restart: always
+    ports:
+      5433:5432
+    environment:
+      POSTGRES_USER: devpg
+      POSTGRES_PASSWORD: devpg
+      POSTGRES_DB: blank
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # the real reason for this step is to avoid launching service blank right after postgresql as blank
+  # does not work right after the database but it works after some time
+  migrate:
+    container_name: migrate
+    build:
+      context: blank-website
+      containerfile: Containerfile
+    command: /usr/local/bin/carton exec "./script/blank.pl eval 'app->pg->migrations->migrate()'"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+
+  blank:
+    container_name: blank
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    build:
+      context: blank-website
+      containerfile: Containerfile
+    restart: always
+    ports:
+      3000:3000
+    volumes:
+      - ./tls:/home/webdev/tls
+    healthcheck:
+      # you may have to replace localhost with the domain name
+      test: ['CMD', '/usr/bin/curl https://localhost:3000']
+      interval: 60s
+      timeout: 3s
+      retries: 1
+
+volumes:
+  pg-data:
