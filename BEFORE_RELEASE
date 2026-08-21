@@ -1,0 +1,5 @@
+# Before release
+
+- updated lib/$(project).pm and Changes
+- git commit
+- git tag
