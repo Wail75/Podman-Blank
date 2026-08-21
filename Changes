@@ -1,4 +1,9 @@
 
+1.02  2026-08-21
+  - updated the repository URL for Blank
+  - changed the port to avoid the default Mojolicious port 3000; changed to the host for HTTPS to localhost
+  - removed migrate container that seems useless
+
 1.01  2026-08-15
   - added a .gitignore for a tls directory, also as a reminder to add this directory
 
