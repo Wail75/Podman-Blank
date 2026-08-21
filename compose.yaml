@@ -18,26 +18,11 @@ services:
       timeout: 5s
       retries: 3
 
-  # the real reason for this step is to avoid launching service blank right after postgresql as blank
-  # does not work right after the database but it works after some time
-  migrate:
-    container_name: migrate
-    build:
-      context: blank-website
-      containerfile: Containerfile
-    command: /usr/local/bin/carton exec "./script/blank.pl eval 'app->pg->migrations->migrate()'"
-    depends_on:
-      postgresql:
-        condition: service_healthy
-
-
   blank:
     container_name: blank
     depends_on:
       postgresql:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
     build:
       context: blank-website
       containerfile: Containerfile
