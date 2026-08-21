@@ -28,12 +28,12 @@ services:
       containerfile: Containerfile
     restart: always
     ports:
-      3000:3000
+      2000:2000
     volumes:
       - ./tls:/home/webdev/tls
     healthcheck:
       # you may have to replace localhost with the domain name
-      test: ['CMD', '/usr/bin/curl https://localhost:3000']
+      test: ['CMD', '/usr/bin/curl https://localhost:2000']
       interval: 60s
       timeout: 3s
       retries: 1

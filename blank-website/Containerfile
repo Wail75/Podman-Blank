@@ -32,6 +32,7 @@ COPY --chown=webdev:webdev blank.conf .
 
 RUN carton install
 
-EXPOSE 3000
+EXPOSE 2000
 
-CMD ["/usr/local/bin/carton", "exec", "./script/blank.pl", "daemon", "-l", "https://[::]:3000?cert=../tls/benef.wail-yahyaoui.fr/fullchain.pem&key=../tls/benef.wail-yahyaoui.fr/privkey.pem", "-m", "production"]
+# change localhost to your domain name
+CMD ["/usr/local/bin/carton", "exec", "./script/blank.pl", "daemon", "-l", "https://[::]:2000?cert=../tls/localhost/fullchain.pem&key=../tls/localhost/privkey.pem", "-m", "production"]
