@@ -1,3 +1,6 @@
+1.03  2026-09-20
+  - remove all mentions of blank in favor 'website' in order to facilitate adaptation to another project
+  - remove a useless install that was taking too much space on some machines
 
 1.02  2026-08-21
   - updated the repository URL for Blank
