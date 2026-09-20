@@ -9,7 +9,7 @@ services:
     environment:
       POSTGRES_USER: devpg
       POSTGRES_PASSWORD: devpg
-      POSTGRES_DB: blank
+      POSTGRES_DB: website
     volumes:
       - pg-data:/var/lib/postgresql/data
     healthcheck:
@@ -18,13 +18,13 @@ services:
       timeout: 5s
       retries: 3
 
-  blank:
-    container_name: blank
+  website:
+    container_name: website
     depends_on:
       postgresql:
         condition: service_healthy
     build:
-      context: blank-website
+      context: website
       containerfile: Containerfile
     restart: always
     ports:

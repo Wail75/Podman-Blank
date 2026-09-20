@@ -12,7 +12,7 @@ RUN apt install -y libssl-dev
 # for Net::SSLeay
 RUN apt install -y zlib1g-dev
 # for Mojo::Pg
-RUN apt install -y postgresql postgresql-client postgresql-server-dev-all
+RUN apt install -y postgresql-client postgresql-server-dev-all
 
 # run as root to write doc
 RUN cpanm Carton
@@ -21,18 +21,18 @@ RUN useradd -ms /bin/bash webdev
 USER webdev
 WORKDIR /home/webdev
 
-RUN git clone https://github.com/Wail75/Blank.git blank-website
+RUN git clone *your repo url* website
 
-WORKDIR blank-website
+WORKDIR website
 
 # to ensure the update of this image
 RUN git pull
 
-COPY --chown=webdev:webdev blank.conf .
+COPY --chown=webdev:webdev website.conf .
 
 RUN carton install
 
 EXPOSE 2000
 
 # change localhost to your domain name
-CMD ["/usr/local/bin/carton", "exec", "./script/blank.pl", "daemon", "-l", "https://[::]:2000?cert=../tls/localhost/fullchain.pem&key=../tls/localhost/privkey.pem", "-m", "production"]
+CMD ["/usr/local/bin/carton", "exec", "./script/website.pl", "daemon", "-l", "https://[::]:2000?cert=../tls/localhost/fullchain.pem&key=../tls/localhost/privkey.pem", "-m", "production"]
